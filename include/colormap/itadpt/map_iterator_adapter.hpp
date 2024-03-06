@@ -31,15 +31,11 @@ namespace itadpt {
     struct map_iterator_adapter {
     private:
         BaseIterator base;
-        Functor * functor_ptr; // replace by
-                               // std::optional<std::reference_wrapper<Functor>
-                               // once C++17 can be required
+        std::optional<std::reference_wrapper<Functor> functor_ptr; // replaced C++11 Functor*
 
     public:
         typedef typename std::iterator_traits<BaseIterator>::value_type domain_type;
-        typedef std::result_of_t<Functor(domain_type)> value_type; // replace by
-                                                                   // std::invoke_result
-                                                                   // in C++17
+        typedef std::invoke_result<Functor(domain_type)> value_type; // replaced C++11 std::result_of_t
         typedef typename std::iterator_traits<BaseIterator>::difference_type difference_type;
         typedef value_type reference;
         typedef std::unique_ptr<value_type> pointer;
